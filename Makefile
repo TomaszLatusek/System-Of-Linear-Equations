@@ -3,25 +3,25 @@
 #
 CPPFLAGS= -c -g -Iinc -Wall -pedantic
 
-__start__: SOLE
-	./SOLE
+__start__: system_of_equations
+	./system_of_equations
 
-SOLE: obj/main.o obj/LinearEquations.o obj/Matrix.o obj/Vector.o
-	g++ -Wall -pedantic -o SOLE obj/main.o obj/Vector.o\
-                                   obj/Matrix.o obj/LinearEquations.o
+system_of_equations: obj/main.o obj/SystemOfLinearEquations.o obj/Matrix.o obj/Vector.o
+	g++ -Wall -pedantic -o system_of_equations obj/main.o obj/Vector.o\
+                                   obj/Matrix.o obj/SystemOfLinearEquations.o
 
-obj/main.o: src/main.cpp inc/LinearEquations.hh inc/Matrix.hh inc/Vector.hh\
-        inc/size.h
+obj/main.o: src/main.cpp inc/SystemOfLinearEquations.hh inc/Matrix.hh inc/Vector.hh\
+        inc/Size.hh
 	g++ ${CPPFLAGS} -o obj/main.o src/main.cpp
 
-obj/LinearEquations.o: src/LinearEquations.cpp inc/LinearEquations.hh
-	g++ ${CPPFLAGS} -o obj/LinearEquations.o src/LinearEquations.cpp
+obj/SystemOfLinearEquations.o: src/SystemOfLinearEquations.cpp inc/SystemOfLinearEquations.hh
+	g++ ${CPPFLAGS} -o obj/SystemOfLinearEquations.o src/SystemOfLinearEquations.cpp
 
 obj/Matrix.o: src/Matrix.cpp inc/Matrix.hh 
 	g++ ${CPPFLAGS} -o obj/Matrix.o src/Matrix.cpp
 
-obj/Vector.o: src/Vector.cpp inc/Vector.hh inc/size.h
+obj/Vector.o: src/Vector.cpp inc/Vector.hh inc/Size.hh
 	g++ ${CPPFLAGS} -o obj/Vector.o src/Vector.cpp
 
 clean:
-	rm -f obj/*.o SOLE
+	rm -f obj/*.o system_of_equations

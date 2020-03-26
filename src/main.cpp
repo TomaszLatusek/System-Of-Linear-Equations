@@ -1,9 +1,7 @@
 #include <iostream>
 #include "Vector.hh"
 #include "Matrix.hh"
-#include "LinearEquations.hh"
-
-
+#include "SystemOfLinearEquations.hh"
 
 using namespace std;
 
@@ -14,11 +12,11 @@ using namespace std;
  * jedynie absolutne minimum.
  */
 
-
 int main()
 {
-  UkladRownanLiniowych   UklRown;   // To tylko przykladowe definicje zmiennej
+  SystemOfLinearEquations system; // To tylko przykladowe definicje zmiennej
 
-  
-  cout << endl << " Start programu " << endl << endl;
+  cout << endl
+       << " Start programu " << endl
+       << endl;
 }
