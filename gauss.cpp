@@ -25,7 +25,6 @@ int main(){
     
 
     if(matrix[0][0]==0){
-        std::cout << "dupa" << std::endl;
         for(i = 0; i < SIZE; i++){
         if(matrix[i][0]!=0){
             det *= -1;
