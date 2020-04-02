@@ -3,35 +3,16 @@
 #include "Size.hh"
 #include <iostream>
 
-/*
- *  Tutaj trzeba opisac klase. Jakie pojecie modeluje ta klasa
- *  i jakie ma glowne cechy.
- */
+
 class Matrix
 {
-  /*
-   *  Tutaj trzeba wstawic definicje odpowiednich pol i metod prywatnych
-   */
+  /* wyrazy macierzy kwadratowej o rozmiarze SIZE */
+  double data[SIZE][SIZE];
+
 public:
-  /*
-   *  Tutaj trzeba wstawic definicje odpowiednich metod publicznych
-   */
+/* przeciazenia operatorow "strumieniowych" */
+//nie jestem pewien czy to prawidlowa forma, ale jak dla mnie dziala
+  friend std::istream &operator>>(std::istream &stream, Matrix &matrix);
+  friend std::ostream &operator<<(std::ostream &stream, const Matrix &matrix);
 };
 
-/*
- * To przeciazenie trzeba opisac. Co ono robi. Jaki format
- * danych akceptuje. Jakie jest znaczenie parametrow itd.
- * Szczegoly dotyczace zalecen realizacji opisow mozna
- * znalezc w pliku:
- *    ~bk/edu/kpo/zalecenia.txt 
- */
-std::istream &operator>>(std::istream &stream, Matrix &matrix);
-
-/*
- * To przeciazenie trzeba opisac. Co ono robi. Jaki format
- * danych akceptuje. Jakie jest znaczenie parametrow itd.
- * Szczegoly dotyczace zalecen realizacji opisow mozna
- * znalezc w pliku:
- *    ~bk/edu/kpo/zalecenia.txt 
- */
-std::ostream &operator<<(std::ostream &stream, const Matrix &matrix);
