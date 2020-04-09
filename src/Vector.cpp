@@ -23,7 +23,6 @@ Vector Vector::operator+(Vector vec2) const
     return result;
 }
 
-
 /*!
  * Realizuje odejmowanie wektorow.
  * Argumenty:
@@ -43,7 +42,6 @@ Vector Vector::operator-(Vector vec2) const
 
     return result;
 }
-
 
 /*!
  * Realizuje mnozenie skalarne wektorow.
@@ -65,7 +63,6 @@ double Vector::operator*(Vector vec2) const
     return result;
 }
 
-
 /*!
  * Realizuje mnozenie wektora przez liczbe.
  * Argumenty:
@@ -85,7 +82,6 @@ Vector Vector::operator*(double arg)
 
     return result;
 }
-
 
 /*!
  * Realizuje dzielenie wektora przez liczbe.
@@ -117,6 +113,36 @@ Vector Vector::operator/(double arg)
 
 
 /*!
+ * Operator indeksowania wektora.
+ * Argument:
+ *      index - nr indeksu - 1.
+ * Zwraca:
+ *      wartosc danego indeksu wektora
+ */
+const double &Vector::operator[](int index) const
+{
+    if (index < 0 || index >= SIZE)
+    {
+        cerr << "Warning! Vector index out of range" << endl;
+    }
+    return coordinates[index];
+}
+
+
+/*!
+ * Operator indeksowania wektora.
+ * Argument:
+ *      index - nr indeksu - 1.
+ * Zwraca:
+ *      wartosc danego indeksu wektora
+ */
+double &Vector::operator[](int index)
+{
+    return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
+}
+
+
+/*!
  * Realizuje wyswietlnie wspolrzednych wektora na ekranie.
  * Argumenty:
  *    stream - output stream,
@@ -129,13 +155,12 @@ ostream &operator<<(ostream &stream, const Vector &vec)
 {
     for (int i = 0; i < SIZE; i++)
     {
-        stream << vec.coordinates[i] << " ";
+        stream << vec[i] << " ";
     }
     stream << endl;
 
     return stream;
 }
-
 
 /*!
  * Realizuje wczytywanie wartosci wspolrzednych wektora
@@ -151,7 +176,7 @@ istream &operator>>(istream &stream, Vector &vec)
 {
     for (int i = 0; i < SIZE; i++)
     {
-        stream >> vec.coordinates[i];
+        stream >> vec[i];
         if (stream.fail())
         {
             stream.clear();

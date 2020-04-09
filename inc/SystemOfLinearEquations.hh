@@ -1,6 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include "Vector.hh"
+#include "Matrix.hh"
+#include "Size.hh"
 
 /*
  *  Tutaj trzeba opisac klase. Jakie pojecie modeluje ta klasa
@@ -8,13 +11,20 @@
  */
 class SystemOfLinearEquations
 {
-  /*
-   *  Tutaj trzeba wstawic definicje odpowiednich pol i metod prywatnych
-   */
+  Matrix matrix;
+  Vector vector;
+  Vector solution;
+
 public:
-  /*
-   *  Tutaj trzeba wstawic definicje odpowiednich metod publicznych
-   */
+/* przeciazenia operatorow "strumieniowych" */
+friend std::istream &operator>>(std::istream &stream, 
+                          SystemOfLinearEquations &system);
+friend std::ostream &operator<<(std::ostream &stream,
+                         const SystemOfLinearEquations &system);  
+/* Metoda rozwiaujaca uklad rownan */
+Vector solve() ;
+
+void showSolution() const;
 };
 
 /*
@@ -24,7 +34,7 @@ public:
  * znalezc w pliku:
  *    ~bk/edu/kpo/zalecenia.txt 
  */
-std::istream &operator>>(std::istream &stream, SystemOfLinearEquations &system);
+
 
 /*
  * To przeciazenie trzeba opisac. Co ono robi. Jaki format
@@ -33,5 +43,4 @@ std::istream &operator>>(std::istream &stream, SystemOfLinearEquations &system);
  * znalezc w pliku:
  *    ~bk/edu/kpo/zalecenia.txt 
  */
-std::ostream &operator<<(std::ostream &stream,
-                         const SystemOfLinearEquations &system);
+

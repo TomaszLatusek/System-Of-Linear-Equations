@@ -11,11 +11,14 @@ class Vector
 
 public:
 /* przeciazenia operatorow dzialan na wektorach */
-  Vector operator+(Vector vec2)const;
-  Vector operator-(Vector vec2)const;
-  double operator*(Vector vec2)const;
+  Vector operator+(Vector vec2) const;
+  Vector operator-(Vector vec2) const;
+  double operator*(Vector vec2) const;
   Vector operator*(double arg);
   Vector operator/(double arg);
+/* przeciazenia nawiasow do indeksowania */
+  const double &operator[](int index) const;
+  double &operator[](int index);
 /* przeciazenia operatorow "strumieniowych" */
 //nie jestem pewien czy to prawidlowa forma, ale jak dla mnie dziala
   friend std::istream &operator>>(std::istream &stream, Vector &vec);
