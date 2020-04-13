@@ -1,5 +1,6 @@
 #include "Vector.hh"
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ Vector Vector::operator+(Vector vec2) const
 
     for (int i = 0; i < SIZE; i++)
     {
-        result.coordinates[i] = coordinates[i] + vec2.coordinates[i];
+        result[i] = coordinates[i] + vec2[i];
     }
 
     return result;
@@ -37,7 +38,7 @@ Vector Vector::operator-(Vector vec2) const
 
     for (int i = 0; i < SIZE; i++)
     {
-        result.coordinates[i] = coordinates[i] - vec2.coordinates[i];
+        result[i] = coordinates[i] - vec2[i];
     }
 
     return result;
@@ -57,7 +58,7 @@ double Vector::operator*(Vector vec2) const
 
     for (int i = 0; i < SIZE; i++)
     {
-        result += coordinates[i] * vec2.coordinates[i];
+        result += coordinates[i] * vec2[i];
     }
 
     return result;
@@ -77,7 +78,7 @@ Vector Vector::operator*(double arg)
 
     for (int i = 0; i < SIZE; i++)
     {
-        result.coordinates[i] = coordinates[i] * arg;
+        result[i] = coordinates[i] * arg;
     }
 
     return result;
@@ -99,18 +100,17 @@ Vector Vector::operator/(double arg)
 
     if (arg == 0.0)
     {
-        cout << "[!] Dzielenie przez zero niedozwolone." << endl;
+        cerr << "[!] Cannot divide by zero." << endl;
         arg = 1;
     }
 
     for (int i = 0; i < SIZE; i++)
     {
-        result.coordinates[i] = coordinates[i] / arg;
+        result[i] = coordinates[i] / arg;
     }
 
     return result;
 }
-
 
 /*!
  * Operator indeksowania wektora.
@@ -128,7 +128,6 @@ const double &Vector::operator[](int index) const
     return coordinates[index];
 }
 
-
 /*!
  * Operator indeksowania wektora.
  * Argument:
@@ -141,7 +140,6 @@ double &Vector::operator[](int index)
     return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
 }
 
-
 /*!
  * Realizuje wyswietlnie wspolrzednych wektora na ekranie.
  * Argumenty:
@@ -153,11 +151,16 @@ double &Vector::operator[](int index)
  */
 ostream &operator<<(ostream &stream, const Vector &vec)
 {
+    cout << "(";
     for (int i = 0; i < SIZE; i++)
     {
-        stream << vec[i] << " ";
+        stream << vec[i];
+        if (i < SIZE - 1)
+        {
+            cout << ", ";
+        }
     }
-    stream << endl;
+    stream << ")" << endl;
 
     return stream;
 }
@@ -181,10 +184,21 @@ istream &operator>>(istream &stream, Vector &vec)
         {
             stream.clear();
             stream.ignore(32767, '\n');
-            cout << "Bledne dane wektora wyrazow wolnych" << endl;
+            cerr << "[!] Vector error." << endl;
             return stream;
         }
     }
 
     return stream;
+}
+
+/* 
+ * Zwraca dlugosc wektora
+ * Uwaga: 
+ *      zeby to mialo sens SIZE nie moze byc wiekszy niz 3
+ *      (chyba)
+ *  */
+double Vector::length() const
+{
+    return sqrt(*this * *this);
 }

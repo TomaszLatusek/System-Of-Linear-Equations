@@ -14,6 +14,7 @@ class SystemOfLinearEquations
   Matrix matrix;
   Vector vector;
   Vector solution;
+  Vector error;
 
 public:
 /* przeciazenia operatorow "strumieniowych" */
@@ -21,26 +22,9 @@ friend std::istream &operator>>(std::istream &stream,
                           SystemOfLinearEquations &system);
 friend std::ostream &operator<<(std::ostream &stream,
                          const SystemOfLinearEquations &system);  
-/* Metoda rozwiaujaca uklad rownan */
-Vector solve() ;
 
+Vector solve();
 void showSolution() const;
+void countErrorVector();
+void showErrorVector() const;
 };
-
-/*
- * To przeciazenie trzeba opisac. Co ono robi. Jaki format
- * danych akceptuje. Jakie jest znaczenie parametrow itd.
- * Szczegoly dotyczace zalecen realizacji opisow mozna
- * znalezc w pliku:
- *    ~bk/edu/kpo/zalecenia.txt 
- */
-
-
-/*
- * To przeciazenie trzeba opisac. Co ono robi. Jaki format
- * danych akceptuje. Jakie jest znaczenie parametrow itd.
- * Szczegoly dotyczace zalecen realizacji opisow mozna
- * znalezc w pliku:
- *    ~bk/edu/kpo/zalecenia.txt 
- */
-

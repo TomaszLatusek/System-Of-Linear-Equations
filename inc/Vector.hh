@@ -20,8 +20,9 @@ public:
   const double &operator[](int index) const;
   double &operator[](int index);
 /* przeciazenia operatorow "strumieniowych" */
-//nie jestem pewien czy to prawidlowa forma, ale jak dla mnie dziala
   friend std::istream &operator>>(std::istream &stream, Vector &vec);
   friend std::ostream &operator<<(std::ostream &stream, const Vector &vec);
+/* dlugosc wektora */
+  double length() const;
 };
 

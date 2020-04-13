@@ -13,16 +13,19 @@ class Matrix
 
 public:
 /* przeciazenia nawiasow do indeksowania */
-  const Vector &operator[](int index) const;
+  const double &operator()(int row, int column) const;
+  double &operator()(int row, int column);
+/* do wyciagania kolumn macierzy */
   Vector &operator[](int index);
 
 /* przeciazenia operatorow "strumieniowych" */
-//nie jestem pewien czy to prawidlowa forma, ale jak dla mnie dziala
   friend std::istream &operator>>(std::istream &stream, Matrix &matrix);
   friend std::ostream &operator<<(std::ostream &stream, const Matrix &matrix);
 
 /* obliczanie wyznacznika macierzy */
   double determinant() const;
+/* mnozenie macierzy przez wektor */
+  Vector operator*(Vector vec) const;
 
 };
 

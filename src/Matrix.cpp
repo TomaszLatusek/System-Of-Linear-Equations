@@ -5,42 +5,43 @@ using namespace std;
 
 /*!
  * Operator indeksowania macierzy.
- * Argument:
- *      index - numer kolumny macierzy - 1
+ * Argumenty:
+ *      row - nr wiersza - 1,
+ *      column - nr kolumn - 1.
  * Zwraca:
- *      kolumne macierzy
- * Uwaga:
- *      aby dostac sie do [i][j]-ego elementu macierzy M
- *      nalezy uzyc M[i][j]. j-ty element i-tej kolumny 
- *      otrzymujemy dzieki operatorowi [] klasy Vector
+ *      wartosc danego wyrazu macierzy
  */
-const Vector &Matrix::operator[](int index) const
+const double &Matrix::operator()(int row, int column) const
 {
-    if (index < 0 || index >= SIZE)
+    if (row < 0 || row >= SIZE || column < 0 || column >= SIZE)
     {
         cerr << "Warning! Matrix index out of range" << endl;
     }
-    return data[index];
+    return data[column][row];
 }
 
 /*!
  * Operator indeksowania macierzy.
- * Argument:
- *      index - numer kolumny macierzy - 1
+ * Argumenty:
+ *      row - nr wiersza - 1,
+ *      column - nr kolumn - 1.
  * Zwraca:
- *      kolumne macierzy
- * Uwaga:
- *      aby dostac sie do [i][j]-ego elementu macierzy M
- *      nalezy uzyc M[i][j]. j-ty element i-tej kolumny 
- *      otrzymujemy dzieki operatorowi [] klasy Vector
+ *      wartosc danego wyrazu macierzy
+ */
+double &Matrix::operator()(int row, int column)
+{
+    return const_cast<double &>(const_cast<const Matrix *>(this)->operator()(row, column));
+}
+
+/*!
+ * Operator indeksowania kolumn macierzy.
+ * Argumenty:
+ *      index - nr kolumny -1.
+ * Zwraca:
+ *      wektor kolumny macierzy
  */
 Vector &Matrix::operator[](int index)
 {
-    // return const_cast<Vector &>(const_cast<const Matrix *>(this)->operator[](index));
-    if (index < 0 || index >= SIZE)
-    {
-        cerr << "Warning! Matrix index out of range" << endl;
-    }
     return data[index];
 }
 
@@ -57,12 +58,12 @@ ostream &operator<<(ostream &stream, const Matrix &matrix)
 {
     stream << "Matrix A:" << endl;
 
-    for (int j = 0; j < SIZE; j++)
+    for (int i = 0; i < SIZE; i++)
     {
         stream << "     ";
-        for (int i = 0; i < SIZE; i++)
+        for (int j = 0; j < SIZE; j++)
         {
-            stream << matrix[i][j] << " ";
+            stream << matrix(i, j) << " ";
         }
         stream << endl;
     }
@@ -83,11 +84,18 @@ istream &operator>>(istream &stream, Matrix &matrix)
 {
     for (int i = 0; i < SIZE; i++)
     {
-        stream >> matrix[i];
+        stream >> matrix.data[i];
     }
     return stream;
 }
 
+/*!
+ * Realizuje obliczanie wyznacznika macierzy.
+ * Argumenty:
+ *    w domysle macierz
+ * Zwraca:
+ *    wyznacznik macierzy
+ */
 double Matrix::determinant() const
 {
     Matrix copy = *this;
@@ -96,21 +104,21 @@ double Matrix::determinant() const
     double det = 1;      //wyznacznik
     int i, j;
 
-    /* Zamiana kolumn w przypadku,
+    /* Zamiana wierszy w przypadku,
      * gdy pierwszy element jest zerem */
-    if (copy[0][0] == 0)
+    if (copy(0, 0) == 0)
     {
         for (i = 0; i < SIZE; i++)
         {
-            if (copy[i][0] != 0)
+            if (copy(i, 0) != 0)
             {
                 det *= -1;
                 for (j = 0; j < SIZE; j++)
                 {
-                    temp1 = copy[i][j];
-                    temp2 = copy[0][j];
-                    copy[0][j] = temp1;
-                    copy[i][j] = temp2;
+                    temp1 = copy(i, j);
+                    temp2 = copy(0, j);
+                    copy(0, j) = temp1;
+                    copy(i, j) = temp2;
                 }
             }
         }
@@ -122,17 +130,41 @@ double Matrix::determinant() const
         {
             for (int n = SIZE - 1; n >= j; n--)
             {
-                copy[m][n] -= (copy[m][j] / copy[i][j] * copy[i][n]);
+                copy(m, n) -= (copy(m, j) / copy(i, j) * copy(i, n));
             }
         }
     }
+
     /* Obliczzenie wyznacznika */
     for (i = j = 0; i < SIZE && j < SIZE; i++, j++)
     {
-        det *= copy[i][j];
+        det *= copy(i, j);
     }
 
     return det;
 }
 
 
+/*!
+ * Realizuje mnozenie macierzy przez wektor.
+ * Argumenty:
+ *    niejawny wskaznik na klase Matrix - pierwszy skladnik mnozenia,
+ *    vec - wektor, drugi skladnik mnozenia.
+ * Zwraca:
+ *    result - wektor wynikowy.
+ */
+Vector Matrix::operator*(Vector vec) const
+{
+    Vector result;
+
+    for (int i = 0; i < SIZE; i++)
+    {
+        result[i] = 0;
+        for (int j = 0; j < SIZE; j++)
+        {
+            result[i] += this->operator()(i, j) * vec[j];
+        }
+    }
+
+    return result;
+}
