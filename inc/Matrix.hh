@@ -26,6 +26,7 @@ public:
   double determinant() const;
 /* mnozenie macierzy przez wektor */
   Vector operator*(Vector vec) const;
-
+/* Hadamard */
+  Matrix hadamard(const Matrix &arg) const;
 };
 

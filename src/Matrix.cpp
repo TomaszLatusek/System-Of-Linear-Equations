@@ -144,7 +144,6 @@ double Matrix::determinant() const
     return det;
 }
 
-
 /*!
  * Realizuje mnozenie macierzy przez wektor.
  * Argumenty:
@@ -166,5 +165,19 @@ Vector Matrix::operator*(Vector vec) const
         }
     }
 
+    return result;
+}
+
+Matrix Matrix::hadamard(const Matrix &arg) const
+{
+    Matrix result;
+
+    for (int i = 0; i < SIZE; i++)
+    {
+        for (int j = 0; j < SIZE; j++)
+        {
+            result(i, j) = operator()(i, j) * arg(i, j);
+        }
+    }
     return result;
 }
